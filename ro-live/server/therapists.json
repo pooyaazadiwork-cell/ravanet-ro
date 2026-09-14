@@ -1,0 +1,81 @@
+[
+  {
+    "id": "th_001",
+    "name": "سارا محمدی",
+    "title": "روان‌شناس بالینی",
+    "modalities": ["CBT", "BA"],
+    "specialties": ["anxiety", "depression", "sleep"],
+    "languages": ["fa"],
+    "gender": "female",
+    "format": ["video", "chat"],
+    "city": "تهران",
+    "acuity_max": 1,
+    "bio": "تمرکز روی اضطراب، خلق و فعال‌سازی رفتاری."
+  },
+  {
+    "id": "th_002",
+    "name": "رضا کریمی",
+    "title": "روان‌درمانگر",
+    "modalities": ["CBT", "ERP"],
+    "specialties": ["ocd", "anxiety"],
+    "languages": ["fa"],
+    "gender": "male",
+    "format": ["video"],
+    "city": "تهران",
+    "acuity_max": 1,
+    "bio": "تجربه کار با وسواس و ERP."
+  },
+  {
+    "id": "th_003",
+    "name": "مینا احمدی",
+    "title": "روان‌شناس",
+    "modalities": ["trauma-informed", "EMDR-informed"],
+    "specialties": ["trauma", "anxiety"],
+    "languages": ["fa"],
+    "gender": "female",
+    "format": ["video"],
+    "city": "اصفهان",
+    "acuity_max": 1,
+    "bio": "رویکرد تروماآگاه؛ بدون اجبار به افشا."
+  },
+  {
+    "id": "th_004",
+    "name": "علی حسینی",
+    "title": "زوج‌درمانگر",
+    "modalities": ["EFT-informed", "systemic"],
+    "specialties": ["couples", "relationships"],
+    "languages": ["fa"],
+    "gender": "male",
+    "format": ["video"],
+    "city": "تهران",
+    "acuity_max": 1,
+    "bio": "تعارض زناشویی و الگوهای دلبستگی."
+  },
+  {
+    "id": "th_005",
+    "name": "نگار رضایی",
+    "title": "روان‌شناس سلامت",
+    "modalities": ["CBT", "supportive"],
+    "specialties": ["burnout", "anxiety", "depression"],
+    "languages": ["fa", "en"],
+    "gender": "female",
+    "format": ["video", "chat"],
+    "city": "شیراز",
+    "acuity_max": 1,
+    "bio": "فرسودگی شغلی و استرس عملکرد."
+  },
+  {
+    "id": "th_006",
+    "name": "مسیر ارزیابی فوری",
+    "title": "ارجاع سطح بالا",
+    "modalities": ["assessment"],
+    "specialties": ["crisis", "high_acuity"],
+    "languages": ["fa"],
+    "gender": null,
+    "format": ["phone", "in_person"],
+    "city": "—",
+    "acuity_max": 3,
+    "bio": "برای خطر فوری: اورژانس و ارزیابی حضوری/تلفنی — نه نوبت عادی رو.",
+    "is_pathway": true
+  }
+]
