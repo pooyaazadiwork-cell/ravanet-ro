@@ -1,0 +1,63 @@
+/**
+ * Ro LLM Gateway — FULL SYNC part1
+ * Join: cat server.mjs.part1 server.mjs.part2 > server.mjs
+ */
+import http from "node:http";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { retrieve, formatContext, ragStats } from "./rag/retrieve.mjs";
+import { assessSafety, crisisReply, postFilter, boundaryReply } from "./safety_lib.mjs";
+import { logSafetyEvent, readSafetyEvents, safetyLogStats } from "./safety_log.mjs";
+import {
+  emptyFormulation,
+  updateFormulation,
+  buildHandoff,
+} from "./handoff.mjs";
+import { matchTherapists, listTherapists } from "./matching.mjs";
+import {
+  emptyPersonModel,
+  updatePersonModel,
+  formatPersonContext,
+} from "./person_model.mjs";
+import {
+  getMemory,
+  setConsent,
+  upsertMemory,
+  clearMemory,
+  formatMemoryForPrompt,
+  memoryStats,
+} from "./memory_store.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.join(__dirname, "..");
+const PORT = Number(process.env.PORT || 8787);
+const API_KEY = process.env.RO_LLM_API_KEY || process.env.OPENAI_API_KEY || "";
+const BASE_URL = (process.env.RO_LLM_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
+const MODEL = process.env.RO_LLM_MODEL || "gpt-4o-mini";
+
+const hits = new Map();
+function rateLimit(ip) {
+  const now = Date.now();
+  let arr = (hits.get(ip) || []).filter((t) => now - t < 60_000);
+  if (arr.length >= 60) return false;
+  arr.push(now);
+  hits.set(ip, arr);
+  return true;
+}
+
+const SYSTEM = fs.readFileSync(path.join(__dirname, "system_prompt_v5.txt"), "utf8");
+const sessions = new Map();
+const personSessions = new Map();
+function getForm(sessionId) {
+  const id = sessionId || "default";
+  if (!sessions.has(id)) sessions.set(id, emptyFormulation());
+  return sessions.get(id);
+}
+function getPerson(sessionId) {
+  const id = sessionId || "default";
+  if (!personSessions.has(id)) personSessions.set(id, emptyPersonModel());
+  return personSessions.get(id);
+}
+
+// --- PART2 continues in server.mjs.part2 (routes + listen) ---
