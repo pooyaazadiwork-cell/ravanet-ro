@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>رو — روان‌ت</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="ro-orb" id="roOrb" aria-hidden="true"></div>
+        <div>
+          <div class="title">رو</div>
+          <div class="sub" id="statusLine">اینجام</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="ghost" id="btnNew">جدید</button>
+        <button type="button" class="ghost" id="btnConsent">حافظه: خاموش</button>
+        <button type="button" class="ghost" id="btnMemory">مشاهده حافظه</button>
+        <button type="button" class="ghost" id="btnMatch">درمانگر</button>
+        <button type="button" class="ghost" id="btnHandoff">خلاصه</button>
+      </div>
+    </header>
+    <div id="crisisBar" class="crisis hidden">اولویت ایمنی — در صورت نیاز با ۱۱۵ یا ۱۲۳ تماس بگیر</div>
+    <main id="chat" class="chat"></main>
+    <div id="starters" class="starters">
+      <button type="button" data-text="حالم خوب نیست">حالم خوب نیست</button>
+      <button type="button" data-text="استرس دارم">استرس دارم</button>
+      <button type="button" data-text="می‌خوام با کسی حرف بزنم">می‌خوام حرف بزنم</button>
+    </div>
+    <form id="form" class="composer">
+      <input id="input" autocomplete="off" placeholder="اینجا بنویس…" />
+      <button type="submit" id="send">بفرست</button>
+    </form>
+  </div>
+  <div id="backdrop" class="backdrop hidden"></div>
+  <aside id="drawer" class="drawer hidden">
+    <div class="drawer-head">
+      <strong id="drawerTitle">—</strong>
+      <button type="button" class="ghost" id="drawerClose">بستن</button>
+    </div>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+  <script src="js/safety.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/rag-lite.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

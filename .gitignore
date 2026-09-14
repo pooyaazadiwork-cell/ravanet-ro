@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+**/server/data/safety_events.jsonl
+**/server/data/memory_store.json
+**/server/data/*.jsonl
+.DS_Store
+*.log
+dist/
+build/
