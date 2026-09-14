@@ -1,4 +1,4 @@
-/** Working model of the person in-session — NOT diagnosis */
+/** Working model — NOT diagnosis. Iran themes + anti-repeat. */
 function push(arr, v, max = 12) {
   if (!v) return;
   if (!arr.includes(v)) arr.push(v);
@@ -7,14 +7,8 @@ function push(arr, v, max = 12) {
 export function emptyPersonModel() {
   return {
     style: { register: "neutral", lengthBias: "medium", energy: "unknown" },
-    themes: [],
-    emotions: [],
-    triggers: [],
-    values_needs: [],
-    already_said: [],
-    avoid: [],
-    relationship_to_ro: "new",
-    turn: 0,
+    themes: [], emotions: [], triggers: [], values_needs: [], already_said: [], avoid: [],
+    relationship_to_ro: "new", turn: 0,
   };
 }
 export function updatePersonModel(model, userText) {
@@ -31,11 +25,19 @@ export function updatePersonModel(model, userText) {
     push(model.emotions, "زخم رابطه");
   }
   if (/کار|پول|نمیرسم|فرسوده/.test(t)) push(model.themes, "فشار زندگی/کار");
-  if (/تنها/.test(t)) {
-    push(model.themes, "تنهایی");
-    push(model.emotions, "تنهایی");
-  }
+  if (/تنها/.test(t)) { push(model.themes, "تنهایی"); push(model.emotions, "تنهایی"); }
   if (/اضطراب|استرس|نگران/.test(t)) push(model.themes, "استرس/اضطراب");
+  if (/خانواده|ازدواج|آبرو|مادر|پدر/.test(t)) {
+    push(model.themes, "فشار خانواده/آبرو");
+    push(model.emotions, "فشار بیرونی");
+  }
+  if (/مهاجرت|ویزا|خارج|بلاتکلیف/.test(t)) push(model.themes, "برزخ مهاجرت/بلاتکلیفی");
+  if (/رئیس|جلوی\s*بقیه|تحقیر|خجالت/.test(t)) {
+    push(model.themes, "شرم/تحقیر کار");
+    push(model.emotions, "شرم");
+  }
+  if (/چک\s*می‌کن|وسواس/.test(t)) push(model.themes, "چک تکراری/اضطراب اطمینان");
+  if (/اجاره|گرون|حقوق|نمیرسم/.test(t)) push(model.themes, "فشار معیشت");
   if (/درک/.test(t)) push(model.values_needs, "درک شدن");
   if (/می‌ترسم\s*از\s*دست|نمیخوای\s*برو/.test(t)) {
     push(model.emotions, "ترس از طرد");
@@ -51,10 +53,10 @@ export function updatePersonModel(model, userText) {
 export function formatPersonContext(model, form) {
   if (!model || model.turn < 1) return "";
   const lines = ["مدل کاری این گفتگو (فرضیه است؛ تشخیص نیست؛ با لحن کاربر هماهنگ شو):"];
-  if (model.style.register === "blunt") lines.push("- سبک: تند/خیابانی → خودت کتابی نشو");
+  if (model.style.register === "blunt") lines.push("- سبک: تند/خیابانی → کتابی نشو");
   if (model.style.lengthBias === "short") lines.push("- جواب خیلی کوتاه");
   if (model.style.energy === "agitated") lines.push("- عصبی است → آروم؛ بازجویی نکن");
-  if (model.style.energy === "low") lines.push("- انرژی پایین → کوتاه؛ فشار مثبت‌بودن نگذار");
+  if (model.style.energy === "low") lines.push("- انرژی پایین → کوتاه؛ فشار مثبت نگذار");
   if (model.themes.length) lines.push("- مضمون‌ها: " + model.themes.slice(-5).join("، "));
   if (model.emotions.length) lines.push("- حس‌ها: " + model.emotions.slice(-5).join("، "));
   if (model.values_needs.length) lines.push("- نیاز احتمالی: " + model.values_needs.slice(-4).join("، "));
@@ -64,6 +66,7 @@ export function formatPersonContext(model, form) {
   if (model.relationship_to_ro === "venting") lines.push("- دردِدل: حضور؛ سؤال کم");
   if (model.relationship_to_ro === "seeking_skills") lines.push("- راهکار خواسته");
   if (model.relationship_to_ro === "seeking_therapist") lines.push("- مسیر درمانگر؛ جایش نباش");
+  lines.push("- تکرار مکانیکی جواب قبلی ممنوع");
   lines.push("- پیوسته باش؛ قطعیت تشخیصی نده.");
   return lines.join("\n");
 }
