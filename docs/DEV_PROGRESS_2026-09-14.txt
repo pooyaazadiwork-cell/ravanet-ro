@@ -1,0 +1,4 @@
+DONE: README, Docker, eval_full (0 hard fails), ideation harden, rate limit, lean app, compact server, engine v5, therapists seed.
+REPO: https://github.com/pooyaazadiwork-cell/ravanet-ro
+NEXT: user Ollama (S1.1), legal crisis copy (S2.2), real therapists (S3.2), site wire (S4.1).
+Full local source: RO_SOURCE_BOX.zip from chat.
