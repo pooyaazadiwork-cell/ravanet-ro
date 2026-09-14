@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Ravanet Ro API
+  version: 1.0.0
+paths:
+  /api/health:
+    get:
+      responses:
+        "200":
+          description: OK
+  /api/chat:
+    post:
+      responses:
+        "200":
+          description: Chat reply
+  /api/handoff:
+    post:
+      responses:
+        "200":
+          description: Handoff package
+  /api/match:
+    post:
+      responses:
+        "200":
+          description: Therapist matches
+  /api/therapists:
+    get:
+      responses:
+        "200":
+          description: List therapists

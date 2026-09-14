@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RavanetTherapist",
+  "type": "object",
+  "required": ["id", "name", "title", "specialties", "languages"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "title": { "type": "string" },
+    "specialties": { "type": "array", "items": { "type": "string" } },
+    "languages": { "type": "array", "items": { "type": "string" } },
+    "acuity_max": { "type": "integer" },
+    "is_pathway": { "type": "boolean" },
+    "booking_url": { "type": ["string", "null"] }
+  }
+}
