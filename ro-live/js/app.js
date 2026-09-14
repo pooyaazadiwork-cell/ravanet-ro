@@ -7,20 +7,28 @@
   const statusLine = document.getElementById("statusLine");
   const sendBtn = document.getElementById("send");
   let busy = false;
+  function sessionId() {
+    try {
+      let id = localStorage.getItem("ro_session_id");
+      if (!id) {
+        id = "s_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem("ro_session_id", id);
+      }
+      return id;
+    } catch {
+      return "default";
+    }
+  }
   let history = [];
-
   function addBubble(role, text) {
     const el = document.createElement("div");
     el.className = "bubble " + role;
     el.textContent = text;
     chat.appendChild(el);
     chat.scrollTop = chat.scrollHeight;
-    return el;
   }
-
   addBubble("ro", "سلام، رو‌ام.\nاینجام. بگو.");
   history.push({ role: "assistant", content: "سلام، رو‌ام.\nاینجام. بگو." });
-
   async function handleSend(text) {
     const clean = (text || "").trim();
     if (!clean || busy) return;
@@ -31,16 +39,20 @@
     history.push({ role: "user", content: clean });
     input.value = "";
     if (statusLine) statusLine.textContent = "…";
-
     let replyText = null;
     let safetyLevel = 0;
     let source = "local";
-
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: clean, history: history.slice(0, -1), stream: false }),
+        body: JSON.stringify({
+          message: clean,
+          history: history.slice(0, -1),
+          stream: false,
+          session_id: sessionId(),
+          user_id: sessionId(),
+        }),
       });
       const data = await res.json();
       if (data && data.reply) {
@@ -49,7 +61,6 @@
         source = data.source || "llm";
       }
     } catch (e) {}
-
     if (!replyText && window.RoEngine) {
       const result = window.RoEngine.reply(clean);
       replyText = result.text;
@@ -57,7 +68,6 @@
       source = "local";
     }
     if (!replyText) replyText = "اینجام. دوباره بگو.";
-
     addBubble("ro", replyText);
     history.push({ role: "assistant", content: replyText });
     if (statusLine) statusLine.textContent = safetyLevel >= 2 ? "اولویت: ایمنی" : source === "llm" ? "رو · مدل" : "رو · محلی";
@@ -66,7 +76,6 @@
     if (sendBtn) sendBtn.disabled = false;
     input.focus();
   }
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     handleSend(input.value);
@@ -81,6 +90,7 @@
   if (btnNew) {
     btnNew.addEventListener("click", function () {
       if (window.RoEngine) window.RoEngine.reset();
+      try { localStorage.removeItem("ro_session_id"); } catch {}
       chat.innerHTML = "";
       history = [];
       if (crisisBar) crisisBar.classList.add("hidden");
