@@ -1,0 +1,14 @@
+services:
+  ro:
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      - PORT=8787
+      - RO_LLM_API_KEY=${RO_LLM_API_KEY:-}
+      - RO_LLM_BASE_URL=${RO_LLM_BASE_URL:-https://api.openai.com/v1}
+      - RO_LLM_MODEL=${RO_LLM_MODEL:-gpt-4o-mini}
+    volumes:
+      - ro-data:/app/server/data
+volumes:
+  ro-data:
